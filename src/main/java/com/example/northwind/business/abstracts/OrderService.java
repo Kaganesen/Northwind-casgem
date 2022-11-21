@@ -11,13 +11,15 @@ import java.util.List;
 public interface OrderService {
 
 
-
     List<GetAllOrderResponse> getAll();
 
-    CreateOrderResponse add(CreateOrderRequest createOrderRequest);
-    UpdateOrderResponse update(UpdateOrderRequest updateOrderRequest);
-    DeleteOrderResponse delete(DeleteOrderRequest deleteOrderRequest);
     GetOrderResponse getById(int id);
+
+    CreateOrderResponse add(CreateOrderRequest createOrderRequest);
+
+    UpdateOrderResponse update(UpdateOrderRequest updateOrderRequest);
+
+    DeleteOrderResponse delete(DeleteOrderRequest deleteOrderRequest);
 
 
 }

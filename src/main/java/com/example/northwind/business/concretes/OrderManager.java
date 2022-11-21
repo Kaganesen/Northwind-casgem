@@ -30,7 +30,7 @@ public class OrderManager implements OrderService {
         for (Order order : orders) {
             GetAllOrderResponse responseItem = new GetAllOrderResponse();
             responseItem.setDate(order.getDate());
-            responseItem.setEmployee(order.getEmployee());
+            responseItem.setEmployeeId(order.getEmployee());
             orderResponses.add(responseItem);
         }
         return orderResponses;
@@ -38,12 +38,26 @@ public class OrderManager implements OrderService {
 
     @Override
     public CreateOrderResponse add(CreateOrderRequest createOrderRequest) {
-        return null;
+        CreateOrderResponse createOrderResponse = new CreateOrderResponse();
+        Order order = new Order();
+        order.setDate(createOrderRequest.getDate());
+        order.setEmployee(createOrderRequest.getEmployee());
+
+        createOrderResponse.setEmployeeId(order.getEmployee().getId());
+        createOrderResponse.setDate(order.getDate());
+        createOrderResponse.setId(order.getId());
+
+        orderRepository.save(order);
+
+        return createOrderResponse;
     }
 
 
     @Override
     public UpdateOrderResponse update(UpdateOrderRequest updateOrderRequest) {
+        UpdateOrderResponse updateOrderResponse = new UpdateOrderResponse();
+        Order order = orderRepository.findById(updateOrderResponse.getId()).get();
+
         return null;
     }
 

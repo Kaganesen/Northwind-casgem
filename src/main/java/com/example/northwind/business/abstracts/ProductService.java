@@ -1,6 +1,8 @@
 package com.example.northwind.business.abstracts;
 
 import com.example.northwind.business.requests.productRequest.CreateProductRequest;
+import com.example.northwind.business.requests.productRequest.DeleteProductRequest;
+import com.example.northwind.business.requests.productRequest.UpdateProductRequest;
 import com.example.northwind.business.responses.productResponse.CreateProductResponse;
 import com.example.northwind.business.responses.productResponse.DeleteProductResponse;
 import com.example.northwind.business.responses.productResponse.GetAllProductResponse;
@@ -15,9 +17,9 @@ public interface ProductService {
 
     CreateProductResponse add(CreateProductRequest createProductRequest);  //Bize verilecek bir request datasidir.
 
-    UpdateProductResponse update(UpdateProductResponse updateProductResponse);
+    UpdateProductResponse update(UpdateProductRequest updateProductRequest);
 
-    DeleteProductResponse delete(DeleteProductResponse deleteProductResponse);
+    DeleteProductResponse delete(DeleteProductRequest deleteProductRequest);
     List<GetAllProductResponse> getByName(String name);
 
     GetAllProductResponse getById (int id);

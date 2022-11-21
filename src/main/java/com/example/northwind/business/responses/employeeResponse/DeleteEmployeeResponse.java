@@ -11,5 +11,8 @@ import lombok.NoArgsConstructor;
 public class DeleteEmployeeResponse {
 
     private int id;
+    private String firstName;
+    private String lastName;
+    private double salary;
 
 }

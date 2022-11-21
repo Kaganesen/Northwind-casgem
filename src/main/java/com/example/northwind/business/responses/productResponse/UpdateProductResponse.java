@@ -12,7 +12,7 @@ public class UpdateProductResponse {
 
     private int id;
     private String name;
-    private String categoryName;
+    private int categoryId;
     private int unitsInStock;
     private double unitPrice;
 }
