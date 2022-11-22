@@ -11,10 +11,8 @@ import com.example.northwind.business.responses.productResponse.GetAllProductRes
 import com.example.northwind.business.responses.productResponse.UpdateProductResponse;
 import com.example.northwind.core.utilities.mapping.ModelMapperService;
 import com.example.northwind.dataAccess.abstracts.ProductRepository;
-import com.example.northwind.entities.concretes.Category;
 import com.example.northwind.entities.concretes.Product;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,40 +47,17 @@ public class ProductManager implements ProductService {
 
     @Override
     public CreateProductResponse add(CreateProductRequest request) {
-        Product product = this.modelMapperService.forRequest().map(request,Product.class);
-
+        Product product = this.modelMapperService.forRequest().map(request, Product.class);
         this.productRepository.save(product);
-        CreateProductResponse createProductResponse = new CreateProductResponse();
-        createProductResponse.setCategoryId(request.getCategoryId());
-        createProductResponse.setName(request.getName());
-        createProductResponse.setUnitsInStock(request.getUnitsInStock());
-        createProductResponse.setUniPrice(request.getUniPrice());
-        createProductResponse.setId(product.getId());
-
+        CreateProductResponse createProductResponse = this.modelMapperService.forResponse().map(product, CreateProductResponse.class);
         return createProductResponse;
     }
 
     @Override
     public UpdateProductResponse update(UpdateProductRequest updateProductRequest) {
-        UpdateProductResponse updateProductResponse = new UpdateProductResponse();
-
-        Product product = productRepository.findById(updateProductRequest.getId()).get();
-        product.setName(updateProductRequest.getName());
-        product.setUnitPrice(updateProductRequest.getUniPrice());
-        product.setUnitInStock(updateProductRequest.getUnitsInStock());
-
-        Category category = new Category();
-        category.setId(updateProductRequest.getCategoryId());
-        product.setCategory(category);
-
-        updateProductResponse.setId(updateProductRequest.getId());
-        updateProductResponse.setName(updateProductRequest.getName());
-        updateProductResponse.setCategoryId(product.getCategory().getId());
-        updateProductResponse.setUnitPrice(updateProductRequest.getUniPrice());
-        updateProductResponse.setUnitsInStock(updateProductRequest.getUnitsInStock());
-
-        productRepository.save(product);
-
+        Product product = this.modelMapperService.forRequest().map(updateProductRequest, Product.class);
+        this.productRepository.save(product);
+        UpdateProductResponse updateProductResponse = this.modelMapperService.forResponse().map(product, UpdateProductResponse.class);
 
         return updateProductResponse;
     }

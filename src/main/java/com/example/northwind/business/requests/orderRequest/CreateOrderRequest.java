@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 
 public class CreateOrderRequest {
 
-    private LocalDateTime date;
-    private Employee employee;
+    private int employeeId;
 
 
 }

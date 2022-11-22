@@ -15,5 +15,5 @@ public class UpdateOrderResponse {
 
     private int id;
     private LocalDateTime date;
-    private Employee employeeId;
+    private int employeeId;
 }

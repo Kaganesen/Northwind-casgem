@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class UpdateOrderRequest {
-    private int id;
-    private LocalDateTime date;
-    private Employee employee;
+
+   private int id;
+    private int employeeId;
 }

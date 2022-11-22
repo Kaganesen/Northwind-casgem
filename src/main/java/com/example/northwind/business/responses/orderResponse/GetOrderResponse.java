@@ -15,6 +15,6 @@ public class GetOrderResponse {
 
     private int id;
     private LocalDateTime date;
-    private Employee employee;
+    private int employee;
 
 }

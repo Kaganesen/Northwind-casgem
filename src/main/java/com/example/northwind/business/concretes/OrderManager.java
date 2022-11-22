@@ -5,6 +5,7 @@ import com.example.northwind.business.requests.orderRequest.CreateOrderRequest;
 import com.example.northwind.business.requests.orderRequest.DeleteOrderRequest;
 import com.example.northwind.business.requests.orderRequest.UpdateOrderRequest;
 import com.example.northwind.business.responses.orderResponse.*;
+import com.example.northwind.core.utilities.mapping.ModelMapperService;
 import com.example.northwind.dataAccess.abstracts.OrderRepository;
 import com.example.northwind.entities.concretes.Order;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class OrderManager implements OrderService {
     @Autowired
 
     private OrderRepository orderRepository;
+    private ModelMapperService modelMapperService;
 
 
     @Override
@@ -38,16 +40,9 @@ public class OrderManager implements OrderService {
 
     @Override
     public CreateOrderResponse add(CreateOrderRequest createOrderRequest) {
-        CreateOrderResponse createOrderResponse = new CreateOrderResponse();
-        Order order = new Order();
-        order.setDate(createOrderRequest.getDate());
-        order.setEmployee(createOrderRequest.getEmployee());
-
-        createOrderResponse.setEmployeeId(order.getEmployee().getId());
-        createOrderResponse.setDate(order.getDate());
-        createOrderResponse.setId(order.getId());
-
-        orderRepository.save(order);
+        Order order = this.modelMapperService.forRequest().map(createOrderRequest, Order.class);
+        this.orderRepository.save(order);
+        CreateOrderResponse createOrderResponse = this.modelMapperService.forResponse().map(order, CreateOrderResponse.class);
 
         return createOrderResponse;
     }
@@ -55,10 +50,11 @@ public class OrderManager implements OrderService {
 
     @Override
     public UpdateOrderResponse update(UpdateOrderRequest updateOrderRequest) {
-        UpdateOrderResponse updateOrderResponse = new UpdateOrderResponse();
-        Order order = orderRepository.findById(updateOrderResponse.getId()).get();
+        Order order = this.modelMapperService.forRequest().map(updateOrderRequest, Order.class);
+        this.orderRepository.save(order);
+        UpdateOrderResponse updateOrderResponse = this.modelMapperService.forResponse().map(order, UpdateOrderResponse.class);
 
-        return null;
+        return updateOrderResponse;
     }
 
     @Override

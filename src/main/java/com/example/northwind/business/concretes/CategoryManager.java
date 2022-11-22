@@ -8,6 +8,7 @@ import com.example.northwind.business.responses.categoryResponse.CreateCategoryR
 import com.example.northwind.business.responses.categoryResponse.DeleteCategoryResponse;
 import com.example.northwind.business.responses.categoryResponse.GetAllCategoryResponse;
 import com.example.northwind.business.responses.categoryResponse.UpdateCategoryResponse;
+import com.example.northwind.core.utilities.mapping.ModelMapperService;
 import com.example.northwind.dataAccess.abstracts.CategoryRepository;
 import com.example.northwind.entities.concretes.Category;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
 
     private CategoryRepository categoryRepository;
+    private ModelMapperService modelMapperService;
 
 
     @Override
@@ -49,13 +51,11 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public CreateCategoryResponse add(CreateCategoryRequest createCategoryRequest) {
-        Category category = new Category();
-        category.setName(createCategoryRequest.getName());
-        categoryRepository.save(category);
-        CreateCategoryResponse categoryResponse = new CreateCategoryResponse();
-        categoryResponse.setName(createCategoryRequest.getName());
-        categoryResponse.setId(category.getId());
-        return categoryResponse;
+        Category category = this.modelMapperService.forRequest().map(createCategoryRequest, Category.class);
+        this.categoryRepository.save(category);
+        CreateCategoryResponse createCategoryResponse = this.modelMapperService.forResponse().map(category, CreateCategoryResponse.class);
+
+        return createCategoryResponse;
     }
 
     @Override
@@ -69,10 +69,9 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public UpdateCategoryResponse update(UpdateCategoryRequest updateCategoryRequest) {
-        Category category = categoryRepository.findById(updateCategoryRequest.getId()).get();
-        category.setName(updateCategoryRequest.getName());
-        UpdateCategoryResponse updateCategoryResponse = new UpdateCategoryResponse();
-        updateCategoryResponse.setName(updateCategoryRequest.getName());
+        Category category =this.modelMapperService.forRequest().map(updateCategoryRequest , Category.class);
+        this.categoryRepository.save(category);
+        UpdateCategoryResponse updateCategoryResponse = this.modelMapperService.forResponse().map(category,UpdateCategoryResponse.class);
         return updateCategoryResponse;
     }
 

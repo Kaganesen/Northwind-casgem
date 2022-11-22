@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 
 public class DeleteOrderRequest {
 
+    private int id;
     private String name;
 }

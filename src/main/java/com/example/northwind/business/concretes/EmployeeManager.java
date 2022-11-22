@@ -5,6 +5,7 @@ import com.example.northwind.business.requests.employeeRequest.CreateEmployeeReq
 import com.example.northwind.business.requests.employeeRequest.DeleteEmployeeRequest;
 import com.example.northwind.business.requests.employeeRequest.UpdateEmployeeRequest;
 import com.example.northwind.business.responses.employeeResponse.*;
+import com.example.northwind.core.utilities.mapping.ModelMapperService;
 import com.example.northwind.dataAccess.abstracts.EmployeeRepository;
 import com.example.northwind.entities.concretes.Employee;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class EmployeeManager implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    private ModelMapperService modelMapperService;
 
 
     @Override
@@ -53,38 +55,19 @@ public class EmployeeManager implements EmployeeService {
 
     @Override
     public CreateEmployeeResponse add(CreateEmployeeRequest createEmployeeRequest) {
-        CreateEmployeeResponse createEmployeeResponse = new CreateEmployeeResponse();
-        Employee employee = new Employee();
-        employee.setFirstName(createEmployeeRequest.getFirstName());
-        employee.setLastName(createEmployeeRequest.getLastName());
-        employee.setSalary(createEmployeeRequest.getSalary());
-        employeeRepository.save(employee);
-        createEmployeeResponse.setId(employee.getId());
-        createEmployeeResponse.setFirstName(createEmployeeRequest.getFirstName());
-        createEmployeeResponse.setLastName(createEmployeeRequest.getLastName());
-        createEmployeeResponse.setSalary(createEmployeeRequest.getSalary());
-
-
+        Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest,Employee.class);
+        this.employeeRepository.save(employee);
+        CreateEmployeeResponse createEmployeeResponse = this.modelMapperService.forResponse().map(employee,CreateEmployeeResponse.class);
         return createEmployeeResponse;
     }
 
     @Override
     public UpdateEmployeeResponse update(UpdateEmployeeRequest updateEmployeeRequest) {
-        Employee employee = employeeRepository.findById(updateEmployeeRequest.getId()).get();
-        employee.setFirstName(updateEmployeeRequest.getFirstName());
-        employee.setLastName(updateEmployeeRequest.getLastName());
-        employee.setSalary(updateEmployeeRequest.getSalary());
-        employee.setId(updateEmployeeRequest.getId());
-
-        Employee result = employeeRepository.save(employee);
-
-        UpdateEmployeeResponse updateEmployeeResponse = new UpdateEmployeeResponse();
-        updateEmployeeResponse.setId(result.getId());
-        updateEmployeeResponse.setFirstName(result.getFirstName());
-        updateEmployeeResponse.setLastName(result.getLastName());
-        updateEmployeeResponse.setSalary(result.getSalary());
-
+        Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest,Employee.class);
+        this.employeeRepository.save(employee);
+        UpdateEmployeeResponse updateEmployeeResponse = this.modelMapperService.forResponse().map(employee,UpdateEmployeeResponse.class);
         return updateEmployeeResponse;
+
     }
 
     @Override

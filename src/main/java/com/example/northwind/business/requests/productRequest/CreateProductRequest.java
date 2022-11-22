@@ -15,7 +15,7 @@ public class CreateProductRequest {
 
     private String name;
 
-    private double uniPrice;
+    private double unitPrice;
 
-    private int unitsInStock;
+    private int unitInStock;
 }

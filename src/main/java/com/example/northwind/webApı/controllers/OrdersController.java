@@ -3,6 +3,7 @@ package com.example.northwind.webApı.controllers;
 
 import com.example.northwind.business.abstracts.OrderService;
 import com.example.northwind.business.requests.orderRequest.CreateOrderRequest;
+import com.example.northwind.business.responses.orderResponse.CreateOrderResponse;
 import com.example.northwind.business.responses.orderResponse.GetAllOrderResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class OrdersController {
 
     }
     @PostMapping("/add")
-    public void add(CreateOrderRequest createOrderRequest){
-        this.orderService.add(createOrderRequest);
+    CreateOrderResponse add(CreateOrderRequest createOrderRequest){
+        return this.orderService.add(createOrderRequest);
     }
 }

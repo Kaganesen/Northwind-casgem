@@ -13,8 +13,8 @@ public class CreateProductResponse {
     private int id;
     private int categoryId;
     private String name;
-    private double uniPrice;
-    private int unitsInStock;
+    private double unitPrice;
+    private int unitInStock;
 }
 
 

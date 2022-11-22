@@ -16,5 +16,5 @@ public class DeleteOrderResponse {
 
     private int id;
     private LocalDateTime date;
-    private Employee employeeId;
+    private int employeeId;
 }
